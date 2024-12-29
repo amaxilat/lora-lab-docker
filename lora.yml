@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    volumes:
+      - ./configuration/postgresql/initdb:/docker-entrypoint-initdb.d
+      - ./postgresqldata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=Yf4D5iP270R1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - ./redisdata:/data
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: always
+    ports:
+      - 8883:1883
+    volumes:
+      - ./configuration/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+    depends_on:
+      - redis
