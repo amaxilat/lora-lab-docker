@@ -77,3 +77,15 @@ services:
       driver: "json-file"
       options:
         max-size: "5m"
+
+  webserver:
+    image: nginx:latest
+    ports:
+      - 80:80
+    restart: always
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
