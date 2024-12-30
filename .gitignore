@@ -1,0 +1,5 @@
+postgresqldata/data/
+redisdata/dump.rdb
+nginx/conf/dhparam.pem
+nginx/conf/nginx-selfsigned.crt
+nginx/conf/nginx-selfsigned.key
